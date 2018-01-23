@@ -6,7 +6,6 @@ Created on Tue Jan 23 21:23:35 2018
 """
 import cv2
 import time
-import cnnFilters
 
 x0 = 400
 y0 = 200

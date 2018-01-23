@@ -56,7 +56,8 @@ def createCNNModel(isBgModeOn):
        wightFileName = WeightFileName[int(isBgModeOn)]
        print ("loading Weight File"+ str(wightFileName) + "...")
        model.load_weights(wightFileName)
-
+    else:
+        print("Creating New CNN for training...")
     return model
 
 

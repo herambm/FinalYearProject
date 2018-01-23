@@ -6,18 +6,14 @@ Created on Sun Jan 21 16:55:41 2018
 """
 
 import cv2
-import numpy as np
-import os
-import time
-import convolutionalNeuralNetwork as cnn
-
-minValue = 70
+import cnnPredict
+import cnnFilters
+import cnnTrain
 
 x0 = 400
 y0 = 200
 height = 200
 width = 200
-bgModel = None
 isBgModeOn = 0
 isAdaptiveThresholdMode = True 
 roi = None
@@ -25,35 +21,9 @@ isPredictionMode = False
 mod= None
 
 #remove background
-def removeBG(frame):
-    fgmask = bgModel.apply(frame)
-    res = cv2.bitwise_and(frame, frame, mask=fgmask)
-    return res
-    
-#binary mask is borrowed from     
-def adaptiveThresholdMode(frame, x0, y0, width, height ):
-    
-    #global guessGesture, visualize, mod, lastgesture, saveImg
-    cv2.rectangle(frame, (x0,y0),(x0+width,y0+height),(0,255,0),1)
-    roi = frame[y0:y0+height, x0:x0+width]
-    gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)  
-    blur = cv2.GaussianBlur(gray,(5,5),2)
-    res = cv2.adaptiveThreshold(blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY_INV,11,2)
-    return res    
-    
-def backgroundremovalMode(frame, x0, y0, width, height ):
-    #global guessGesture, visualize, mod, lastgesture, saveImg   
-    cv2.rectangle(frame, (x0,y0),(x0+width,y0+height),(0,255,0),1)
-    roi = frame[y0:y0+height, x0:x0+width]
-    #remove background
-    roi = removeBG(roi)
-    gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-    blur = cv2.GaussianBlur(gray,(5,5),2)
-    res = cv2.adaptiveThreshold(blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY_INV,11,2)
-    return res
     
 def Main():
-    global isAdaptiveThresholdMode, isBgModeOn, bgModel,x0,y0,roi,isPredictionMode,mod
+    global isAdaptiveThresholdMode, isBgModeOn,x0,y0,roi,isPredictionMode,mod
     isQuit=0
     cap = cv2.VideoCapture(0)
     ret = cap.set(3,640)
@@ -65,35 +35,37 @@ def Main():
         
         if ret == True:
             if isAdaptiveThresholdMode == True:
-                roi = adaptiveThresholdMode(frame, x0, y0, width, height)
+                roi = cnnFilters.adaptiveThresholdMode(frame, x0, y0, width, height)
             else:
-                roi = backgroundremovalMode(frame, x0, y0, width, height)
+                roi = cnnFilters.backgroundremovalMode(frame, x0, y0, width, height)
             if isPredictionMode : 
-               cnn.guessGesture(mod, roi)
-               
-               
-        cv2.imshow('Original',frame) 
+                a=10
+               #cnnPredict.guessGesture(mod,
+                    
+        cv2.imshow('Sign Language Detactor',frame) 
+        
         if not isQuit:
             cv2.imshow('ROI', roi)  
             
         key = cv2.waitKey(10) & 0xff  
+        
         if key == ord('c'):
             isAdaptiveThresholdMode = not isAdaptiveThresholdMode
             if isAdaptiveThresholdMode:
                 print ("Adaptive Threshold Mode active")
-                bgModel= None
                 isBgModeOn = 0
             else:
                 print ("Background Removal Mode active")
-                bgModel = cv2.createBackgroundSubtractorMOG2()
                 isBgModeOn = 1
             if isPredictionMode:    
-               mod = cnn.loadCNN(isBgModeOn)
+               mod = cnnPredict.loadCNN(isBgModeOn)
         elif key == ord('p'):
                isPredictionMode = not isPredictionMode
                if isPredictionMode:
-                    mod = cnn.loadCNN(isBgModeOn)
+                    mod = cnnPredict.loadCNN(isBgModeOn)
                print ("Prediction Mode - {}".format(isPredictionMode))
+        elif key == ord('q'):
+             isQuit = not isQuit
         elif key == ord('w'):
             y0 = y0 - 5
         elif key == ord('s'):

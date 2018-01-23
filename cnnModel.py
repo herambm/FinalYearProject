@@ -1,0 +1,56 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jan 22 23:17:00 2018
+
+@author: abhi
+"""
+
+from keras.models import Sequential
+from keras.layers import Dense, Conv2D, MaxPooling2D, Dropout, Flatten
+# We require this for Theano lib ONLY. Remove it for TensorFlow usage
+
+# input image dimensions
+img_x, img_y = 200, 200
+# For grayscale use 1 value and for color images use 3 (R,G,B channels)
+img_channels = 1
+no_classes = 2
+no_conv = 3
+no_pool = 2
+no_filters = [2,4,8,16,32,64,128,256,512]
+dropout_ratio = [0,0.25,0.5,0.75,1]
+input_shape = (img_x, img_y, img_channels)
+
+ 
+def createCNNModel():
+    
+    model = Sequential()
+    
+    model.add(Conv2D(no_filters[4], (no_conv, no_conv), padding='same', activation='relu', input_shape=input_shape))
+    model.add(Conv2D(no_filters[4], (no_conv, no_conv), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(no_pool, no_pool)))
+    model.add(Dropout(dropout_ratio[1]))
+ 
+    model.add(Conv2D(no_filters[5], (no_conv, no_conv), padding='same', activation='relu'))
+    model.add(Conv2D(no_filters[5], (no_conv, no_conv), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(no_pool, no_pool)))
+    model.add(Dropout(dropout_ratio[1]))
+ 
+    model.add(Conv2D(no_filters[5], (no_conv, no_conv), padding='same', activation='relu'))
+    model.add(Conv2D(no_filters[5], (no_conv, no_conv), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(no_pool, no_pool)))
+    model.add(Dropout(dropout_ratio[1]))
+ 
+    model.add(Flatten())
+    model.add(Dense(no_filters[7], activation='relu'))
+    model.add(Dropout(dropout_ratio[2]))
+    model.add(Dense(no_classes, activation='softmax'))
+     
+    return model
+    
+    
+
+
+
+
+
+

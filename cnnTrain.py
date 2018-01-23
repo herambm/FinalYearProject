@@ -5,3 +5,5 @@ Created on Mon Jan 22 23:26:16 2018
 @author: abhi
 """
 
+def trainModel():
+    

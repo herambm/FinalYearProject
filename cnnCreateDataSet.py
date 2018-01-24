@@ -20,8 +20,10 @@ def saveROI(roi,isBgModeOn):
         signname = input("Enter a sign name \n")
         if isBgModeOn == 0:
             path="./AdaptiveThresholdModeDataSet/"
-        else:
+        elif isBgModeOn == 1:
             path="./BackgroundRemovalModeDataSet/"
+        else:
+            path="./NoFilterModeDataSet/"
         ts = int(time.time())
         name = signname + str(ts)
         print ("creating image...")

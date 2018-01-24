@@ -42,12 +42,14 @@ def Main():
         frame = cv2.flip(frame, 3)
 
         if ret == True:
-            if isAdaptiveThresholdMode == True:
+            if isBgModeOn == 0:
                 roi = cnnFilters.adaptiveThresholdMode(frame, x0, y0, width, height)
-            else:
+            elif isBgModeOn == 1:
                 roi = cnnFilters.backgroundremovalMode(frame, x0, y0, width, height)
+            else :
+                 roi = cnnFilters.noFilterMode(frame, x0, y0, width, height)
             if isPredictionMode :
-                cnnPredict.predictSign(roi,model)
+                 cnnPredict.predictSign(roi,model)
 
         cv2.imshow('Sign Language Detactor',frame)
 
@@ -57,13 +59,16 @@ def Main():
         key = cv2.waitKey(10) & 0xff
 
         if key == ord('c'):
-            isAdaptiveThresholdMode = not isAdaptiveThresholdMode
-            if isAdaptiveThresholdMode:
-                print ("Adaptive Threshold Mode active")
+            if(isBgModeOn == 2):
                 isBgModeOn = 0
-            else:
+            else:    
+                isBgModeOn = isBgModeOn+1
+            if isBgModeOn == 0:
+                print ("Adaptive Threshold Mode active")
+            elif isBgModeOn == 1:
                 print ("Background Removal Mode active")
-                isBgModeOn = 1
+            else :
+                print ("No Filter Mode active")
             if isPredictionMode:
                    model=cnnModel.createCNNModel(isBgModeOn)
         elif key == ord('p'):

@@ -35,3 +35,10 @@ def backgroundremovalMode(frame, x0, y0, width, height ):
     blur = cv2.GaussianBlur(gray,(5,5),2)
     res = cv2.adaptiveThreshold(blur,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY_INV,11,2)
     return res
+    
+def noFilterMode(frame, x0, y0, width, height ):
+     
+    cv2.rectangle(frame, (x0,y0),(x0+width,y0+height),(0,255,0),1)
+    roi = frame[y0:y0+height, x0:x0+width]
+    return roi    
+    

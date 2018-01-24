@@ -22,7 +22,7 @@ no_filters = [2,4,8,16,32,64,128,256,512]
 dropout_ratio = [0,0.25,0.5,0.75,1]
 input_shape = ( img_channels,img_x, img_y)
 
-WeightFileName = ["adaptivethresholdmodeweight.hdf5","backgroundremovalmodeweight.hdf5"]
+WeightFileName = ["adaptivethresholdmodeweight.hdf5","backgroundremovalmodeweight.hdf5","nofiltermodeweight.hdf5"]
 
 def createCNNModel(isBgModeOn):
 

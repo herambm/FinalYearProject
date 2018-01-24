@@ -26,11 +26,13 @@ def trainModel():
     img_x = cnnModel.img_x
     img_y = cnnModel.img_y
     img_channels = cnnModel.img_channels
-    dataSetType = int(input("Enter 1 for Adaptive Threshold Mode Dataset \nEnter 2 for Background Removal Dataset \n"))
-    if dataSetType:
+    dataSetType = int(input("Enter 1 for Adaptive Threshold Mode Dataset \nEnter 2 for Background Removal Dataset \nEnter 3 for No filter mode \n"))
+    if dataSetType == 1:
         path = './AdaptiveThresholdModeDataSet'
-    else:
+    elif dataSetType == 2:
         path = './BackgroundRemovalModeDataSet'
+    else :
+        path = './NoFilterModeDataSet'
     #create dataset array   
     listing = os.listdir(path)
     dataset = []

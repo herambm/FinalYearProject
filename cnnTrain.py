@@ -51,9 +51,9 @@ def trainModel():
     s = 0
     r = samples_per_class
     for classIdentifier in range(no_classes):
-        label[int(r):int(s)] = classIdentifier
-        r = s
-        s = r + samples_per_class
+        label[int(s):int(r)] = classIdentifier
+        s = r
+        r = s + samples_per_class  
     data,Label = shuffle(image_matrix,label, random_state=2)
     train_data = [data,Label]
     (X, y) = (train_data[0],train_data[1])
@@ -70,16 +70,13 @@ def trainModel():
     score = model.evaluate(X_test, Y_test, verbose=0)
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])
-    isSave = input("Do you want to backup this training weights - y/n ?\n")
-    if isSave == "y":
-        filename = input("Enter weight file name\n")
-        filename = './WeightBackUp/' + str(filename) + ".hdf5"
-        model.save_weights(filename,overwrite=True)         
-    else :
-        if dataSetType:
-             model.save_weights("./AdaptiveThresholdWeight.hdf5",overwrite=True)
-        else :
-             model.save_weights("./BackgroundRemovalWeight.hdf5",overwrite=True)
+    if dataSetType == 1:
+             model.save_weights("./adaptivethresholdmodeweight.hdf5",overwrite=True)
+    elif dataSetType == 2:
+             model.save_weights("./backgroundremovalmodeweight.hdf5",overwrite=True)
+    elif dataSetType == 3:
+             model.save_weights("./nofiltermodeweight.hdf5",overwrite=True)
+         
        
      
             

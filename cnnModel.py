@@ -15,7 +15,7 @@ backend.set_image_dim_ordering('th')
 img_x, img_y = 200, 200
 # For grayscale use 1 value and for color images use 3 (R,G,B channels)
 img_channels = 1
-no_classes = 2
+no_classes = 10
 no_conv = 3
 no_pool = 2
 no_filters = [2,4,8,16,32,64,128,256,512]

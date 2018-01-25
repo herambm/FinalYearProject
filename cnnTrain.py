@@ -16,7 +16,7 @@ from keras.utils import np_utils
 backend.set_image_dim_ordering('th')
 model = None
 path = ""
-no_epoch = 1
+no_epoch = 30
 batch_size = 32
     
 def trainModel():

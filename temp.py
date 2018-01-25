@@ -21,7 +21,6 @@ import cnnCreateDataSet
 import time
 import os
 
-
 x0 = 400
 y0 = 200
 height = 200
@@ -41,7 +40,9 @@ def Main():
     cap = cv2.VideoCapture(0)
     ret = cap.set(3,640)
     ret = cap.set(4,480)
-    print(menu)  
+    i=0
+    j=0
+    signnamearray = ["Aboard", "Baby", "Bowl","Friend"," House" ,"IorMe","Money","Opposite","Prisoner","You","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"]
     while(True):
         ret, frame = cap.read()
         #invert frame
@@ -62,17 +63,29 @@ def Main():
         key = cv2.waitKey(10) & 0xff
 
         if key == ord('n'):
+            '''
             signname = input("Enter a sign name \n")
+            '''
+            signname = signnamearray[i]
             path1="./AdaptiveThresholdModeDataSet/"
             path2="./BackgroundRemovalModeDataSet/"
             path3="./NoFilterModeDataSet/"
             ts = int(time.time())
             name = signname + str(ts)
             print ("creating image...")
-            cv2.imwrite(path1+name + "1.png", roi1)
-            cv2.imwrite(path2+name + "2.png", roi2)
-            cv2.imwrite(path3+name + "3.png", roi3)
-            print ("created image: "+str(name)+" for word " + str(signname))
+            cv2.imwrite(path1+name + str(j) + "1.png", roi1)
+            cv2.imwrite(path2+name + str(j) + "2.png", roi2)
+            cv2.imwrite(path3+name + str(j) + "3.png", roi3)
+            print ("created image: "+str(signname)+ " " + str(j) + " for word " + str(signname))
+            j=j+1
+            if(j==2):
+              i=i+1
+              j=0
+              duration = 1  # second
+              freq = 440  # Hz
+              os.system('spd-say "Change The Gesture"')
+              if(i==20):
+                  break
             time.sleep(0.04 )
         elif key == ord('q'):
              isQuit = not isQuit

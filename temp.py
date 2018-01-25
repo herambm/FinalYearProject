@@ -36,13 +36,27 @@ menu = "\n c-Change Filter\n p-Predict Sign\n n-Save ROI in data set \n q-Close 
 
 def Main():
     global isAdaptiveThresholdMode, isBgModeOn,x0,y0,roi,isPredictionMode,model,menu
+    '''
+    path = './NoFilterModeDataSet'
+    listing = os.listdir(path)
+    dataset = []
+    for name in listing:
+        from scipy.ndimage import imread
+        image2 = imread(path+"/"+name)
+        #image2.reshape(200,200,1)
+        x,y,z = image2.shape
+        if(x!=200 or y!=200):
+                os.remove(path+"/"+name)
+                print(name)
+    '''            
     isQuit=0
     cap = cv2.VideoCapture(0)
     ret = cap.set(3,640)
     ret = cap.set(4,480)
     i=0
     j=0
-    signnamearray = ["Aboard", "Baby", "Bowl","Friend"," House" ,"IorMe","Money","Opposite","Prisoner","You","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"]
+    signnamearray = ["Aboard", "Baby", "Bowl","Friend"," House" ,"IorMe","Money","Opposite","Prisoner","You"]
+    cv2.namedWindow('Original', cv2.WINDOW_NORMAL)    
     while(True):
         ret, frame = cap.read()
         #invert frame
@@ -63,9 +77,8 @@ def Main():
         key = cv2.waitKey(10) & 0xff
 
         if key == ord('n'):
-            '''
-            signname = input("Enter a sign name \n")
-            '''
+            
+            #signname = input("Enter a sign name \n")
             signname = signnamearray[i]
             path1="./AdaptiveThresholdModeDataSet/"
             path2="./BackgroundRemovalModeDataSet/"
@@ -78,13 +91,14 @@ def Main():
             cv2.imwrite(path3+name + str(j) + "3.png", roi3)
             print ("created image: "+str(signname)+ " " + str(j) + " for word " + str(signname))
             j=j+1
-            if(j==2):
+            if(j==10):
               i=i+1
               j=0
               duration = 1  # second
               freq = 440  # Hz
               os.system('spd-say "Change The Gesture"')
-              if(i==20):
+              print("next gesture is: " + str(signnamearray[i]))
+              if(i==10):
                   break
             time.sleep(0.04 )
         elif key == ord('q'):
@@ -101,7 +115,6 @@ def Main():
             break;
     cap.release()
     cv2.destroyAllWindows()
-
 
 
 if __name__ == "__main__":

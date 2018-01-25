@@ -43,6 +43,7 @@ def Main():
     i=0
     j=0
     signnamearray = ["Aboard", "Baby", "Bowl","Friend"," House" ,"IorMe","Money","Opposite","Prisoner","You"]
+    cv2.namedWindow('Original', cv2.WINDOW_NORMAL)    
     while(True):
         ret, frame = cap.read()
         #invert frame
@@ -78,13 +79,13 @@ def Main():
             cv2.imwrite(path3+name + str(j) + "3.png", roi3)
             print ("created image: "+str(signname)+ " " + str(j) + " for word " + str(signname))
             j=j+1
-            if(j==2):
+            if(j==10):
               i=i+1
               j=0
               duration = 1  # second
               freq = 440  # Hz
               os.system('spd-say "Change The Gesture"')
-              if(i==20):
+              if(i==10):
                   break
             time.sleep(0.04 )
         elif key == ord('q'):

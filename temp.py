@@ -107,5 +107,88 @@ def Main():
 
 if __name__ == "__main__":
     Main()
+    
+    """
+    path = './AdaptiveThresholdModeDataSet'
+    listing = os.listdir(path)
+    dataset = []
+    for name in listing:
+        from scipy.ndimage import imread
+        image2 = imread(path+"/"+name)
+        #image2.reshape(200,200,1)
+        x,y = image2.shape
+        if(x!=200 or y!=200):
+            print(name)
+            if(name[0]=='A'):
+                print(name)
+                os.remove(path+"/"+name)
+                newf=path+"/" + "Aboard151686741401.png"
+                gray_image = imread(newf)
+                cv2.imwrite(path+"/"+name, gray_image)
+                print(name)
+            if(name[0]=="F"):
+                print(name)
+                os.remove(path+"/"+name)
+                newf=path+"/" + "Friend151686753831.png"
+                gray_image = imread(newf)
+                cv2.imwrite(path+"/"+name, gray_image)
+                print(name)
+            if(name[0]==" "):
+                print(name)
+                os.remove(path+"/"+name)
+                newf=path+"/" + " House151686755801.png"
+                gray_image = imread(newf)
+                cv2.imwrite(path+"/"+name, gray_image)
+                print(name)
+            if(name[0]=="M"):
+                print(name)
+                os.remove(path+"/"+name)
+                newf=path+"/" + "Money151686597951.png"
+                gray_image = imread(newf)
+                cv2.imwrite(path+"/"+name, gray_image)
+                print(name)
+            if(name[0]=="I"):
+                print(name)
+                os.remove(path+"/"+name)
+                newf=path+"/" + "IorMe151686592121.png"
+                gray_image = imread(newf)
+                cv2.imwrite(path+"/"+name, gray_image)
+                print(name)
+            if(name[0]=="O"):
+                print(name)
+                os.remove(path+"/"+name)
+                newf=path+"/" + "Opposite151686766701.png"
+                gray_image = imread(newf)
+                cv2.imwrite(path+"/"+name, gray_image)
+                print(name)
+            if(name[0]=="P"):
+                print(name)
+                os.remove(path+"/"+name)
+                newf=path+"/" + "Prisoner151686693531.png"
+                gray_image = imread(newf)
+                cv2.imwrite(path+"/"+name, gray_image)
+                print(name)
+            if(name[0]=="Y"):
+                print(name)
+                os.remove(path+"/"+name)
+                newf=path+"/" + "You151686179261.png"
+                gray_image = imread(newf)
+                cv2.imwrite(path+"/"+name, gray_image)
+                print(name)
+            if(name[0]=="B" and name[1]=="o"):
+                print(name)
+                os.remove(path+"/"+name)
+                newf=path+"/" + "Bowl151686572011.png"
+                gray_image = imread(newf)
+                cv2.imwrite(path+"/"+name, gray_image)
+                print(name)
+            if(name[0]=="B" and name[1]== "a"):
+                print(name)
+                os.remove(path+"/"+name)
+                newf=path+"/" + "Baby151686747081.png"
+                gray_image = imread(newf)
+                cv2.imwrite(path+"/"+name, gray_image)
+                print(name)
+                "'"
 
 

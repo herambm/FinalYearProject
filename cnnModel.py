@@ -28,23 +28,34 @@ def createCNNModel(isBgModeOn):
 
     model = Sequential()
 
-    model.add(Conv2D(no_filters[4], (no_conv, no_conv), padding='same', activation='relu', input_shape=input_shape))
+    model.add(Conv2D(no_filters[4], (no_conv, no_conv), padding='valid', activation='relu', input_shape=input_shape))
     model.add(Conv2D(no_filters[4], (no_conv, no_conv), activation='relu'))
     model.add(MaxPooling2D(pool_size=(no_pool, no_pool)))
     model.add(Dropout(dropout_ratio[1]))
 
-    model.add(Conv2D(no_filters[5], (no_conv, no_conv), padding='same', activation='relu'))
+    model.add(Conv2D(no_filters[5], (no_conv, no_conv), padding='valid', activation='relu'))
     model.add(Conv2D(no_filters[5], (no_conv, no_conv), activation='relu'))
     model.add(MaxPooling2D(pool_size=(no_pool, no_pool)))
     model.add(Dropout(dropout_ratio[1]))
 
-    model.add(Conv2D(no_filters[5], (no_conv, no_conv), padding='same', activation='relu'))
-    model.add(Conv2D(no_filters[5], (no_conv, no_conv), activation='relu'))
+    model.add(Conv2D(no_filters[6], (no_conv, no_conv), padding='valid', activation='relu'))
+    model.add(Conv2D(no_filters[6], (no_conv, no_conv), activation='relu'))
     model.add(MaxPooling2D(pool_size=(no_pool, no_pool)))
     model.add(Dropout(dropout_ratio[1]))
+
+    model.add(Conv2D(no_filters[7], (no_conv, no_conv), padding='valid', activation='relu'))
+    model.add(Conv2D(no_filters[7], (no_conv, no_conv), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(no_pool, no_pool)))
+    model.add(Dropout(dropout_ratio[1]))
+    
+    model.add(Conv2D(no_filters[8], (no_conv, no_conv), padding='valid', activation='relu'))
+    model.add(Conv2D(no_filters[8], (no_conv, no_conv), activation='relu'))
+    model.add(MaxPooling2D(pool_size=(no_pool, no_pool)))
+    model.add(Dropout(dropout_ratio[1]))
+
 
     model.add(Flatten())
-    model.add(Dense(no_filters[7], activation='relu'))
+    model.add(Dense(no_filters[8], activation='relu'))
     model.add(Dropout(dropout_ratio[2]))
     model.add(Dense(no_classes, activation='softmax'))
     model.summary()

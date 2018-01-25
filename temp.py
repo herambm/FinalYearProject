@@ -42,7 +42,7 @@ def Main():
     ret = cap.set(4,480)
     i=0
     j=0
-    signnamearray = ["Aboard", "Baby", "Bowl","Friend"," House" ,"IorMe","Money","Opposite","Prisoner","You","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"]
+    signnamearray = ["Aboard", "Baby", "Bowl","Friend"," House" ,"IorMe","Money","Opposite","Prisoner","You"]
     while(True):
         ret, frame = cap.read()
         #invert frame

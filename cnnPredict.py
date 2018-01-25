@@ -12,7 +12,7 @@ import operator
 import json
 
 backend.set_image_dim_ordering('th')
-output = ["Abroad", "Baby","Bowl", "Friend", "House","IorMe","Money","Opposite","Prisoner","You"]
+output = ["House","Aboard","Baby","Bowl", "Friend","IorMe","Money","Opposite","Prisoner","You"]
 get_output= None
 
 def predictSign(frame,model):

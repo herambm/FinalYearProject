@@ -12,6 +12,8 @@ from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 import os
 from keras.utils import np_utils
+import matplotlib
+from matplotlib import pyplot as plt
 
 backend.set_image_dim_ordering('th')
 model = None
@@ -67,7 +69,26 @@ def trainModel():
     X_test /= 255
     Y_train = np_utils.to_categorical(y_train, no_classes)
     Y_test = np_utils.to_categorical(y_test, no_classes)
-    model.fit(X_train, Y_train, batch_size=batch_size, epochs=no_epoch,verbose=1, validation_split=0.25)  
+    history = model.fit(X_train, Y_train, batch_size=batch_size, epochs=no_epoch,verbose=1, validation_split=0.25) 
+    
+    print(history.history.keys())
+    print(history.history.keys())
+    plt.plot(history.history['acc'])
+    plt.plot(history.history['val_acc'])
+    plt.title('model accuracy')
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
+    
+    
     score = model.evaluate(X_test, Y_test, verbose=0)
     print('Test loss:', score[0])
     print('Test accuracy:', score[1])

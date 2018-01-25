@@ -35,6 +35,7 @@ def trainModel():
         path = './NoFilterModeDataSet'
     #create dataset array   
     listing = os.listdir(path)
+    listing.sort()
     dataset = []
     for name in listing:
         dataset.append(name)

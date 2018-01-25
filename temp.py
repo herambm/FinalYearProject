@@ -18,6 +18,9 @@ import cnnFilters
 import cnnTrain
 import cnnModel
 import cnnCreateDataSet
+import time
+import os
+
 
 x0 = 400
 y0 = 200
@@ -38,53 +41,39 @@ def Main():
     cap = cv2.VideoCapture(0)
     ret = cap.set(3,640)
     ret = cap.set(4,480)
-    switch_case = int(input("\nWhat would you like to do ? \n 1) Train the model \n 2) Predict Sign or Create Data Set\n"))
-    if(switch_case==1):
-      cnnTrain.trainModel()
-    elif switch_case==2:
-      print(menu)  
-      while(True):
+    print(menu)  
+    while(True):
         ret, frame = cap.read()
         #invert frame
         frame = cv2.flip(frame, 3)
 
-        if ret == True:
-            if isBgModeOn == 0:
-                roi = cnnFilters.adaptiveThresholdMode(frame, x0, y0, width, height)
-            elif isBgModeOn == 1:
-                roi = cnnFilters.backgroundremovalMode(frame, x0, y0, width, height)
-            else :
-                 roi = cnnFilters.noFilterMode(frame, x0, y0, width, height)
-            if isPredictionMode :
-                 cnnPredict.predictSign(roi,model)
-
+        roi1 = cnnFilters.adaptiveThresholdMode(frame, x0, y0, width, height)
+        roi2 = cnnFilters.backgroundremovalMode(frame, x0, y0, width, height)
+        roi3 = cnnFilters.noFilterMode(frame, x0, y0, width, height)
         cv2.imshow('Sign Language Detactor',frame)
 
         if not isQuit:
-            cv2.imshow('ROI', roi)
+            cv2.imshow('ROI1', roi1)
+            cv2.imshow('ROI2', roi2)
+            cv2.imshow('ROI3', roi3)
+
+
 
         key = cv2.waitKey(10) & 0xff
 
-        if key == ord('c'):
-            if(isBgModeOn == 2):
-                isBgModeOn = 0
-            else:    
-                isBgModeOn = isBgModeOn+1
-            if isBgModeOn == 0:
-                print ("Adaptive Threshold Mode active")
-            elif isBgModeOn == 1:
-                print ("Background Removal Mode active")
-            else :
-                print ("No Filter Mode active")
-            if isPredictionMode:
-                   model=cnnModel.createCNNModel(isBgModeOn)
-        elif key == ord('p'):
-               isPredictionMode = not isPredictionMode
-               if isPredictionMode:
-                   model=cnnModel.createCNNModel(isBgModeOn)
-               print ("Prediction Mode - {}".format(isPredictionMode))
-        elif key == ord('n'):
-            cnnCreateDataSet.saveROI(roi,isBgModeOn)
+        if key == ord('n'):
+            signname = input("Enter a sign name \n")
+            path1="./AdaptiveThresholdModeDataSet/"
+            path2="./BackgroundRemovalModeDataSet/"
+            path3="./NoFilterModeDataSet/"
+            ts = int(time.time())
+            name = signname + str(ts)
+            print ("creating image...")
+            cv2.imwrite(path1+name + "1.png", roi1)
+            cv2.imwrite(path2+name + "2.png", roi2)
+            cv2.imwrite(path3+name + "3.png", roi3)
+            print ("created image: "+str(name)+" for word " + str(signname))
+            time.sleep(0.04 )
         elif key == ord('q'):
              isQuit = not isQuit
         elif key == ord('w'):
@@ -97,13 +86,8 @@ def Main():
             x0 = x0 + 5
         elif key == 27:
             break;
-      cap.release()
-      cv2.destroyAllWindows()
-
-    elif switch_case == 3:
-        cnnCreateDataSet.createDataSet()
-    else:
-        print ("Please book an appointment with ophthalmologist!")
+    cap.release()
+    cv2.destroyAllWindows()
 
 
 

@@ -3,7 +3,7 @@ import cv2
 from matplotlib import pyplot as plt
 import time
 
-images=['1.png','2.png','3.png','4.png','5.png','6.png','7.png','8.png','9.png','10.png','11.png','12.png','13.png','14.png','16.png','17.png','18.png','19.png']
+images=['baby (1).png','baby (2).png','aboard (1).png','aboard (2).png','five (1).png','five (2).png','four (1).png','four (2).png','gone (1).png','gone (2).png','seven (1).png','seven (2).png','seven (3).png']
 
 
 # Initiate SURF detector
@@ -23,18 +23,21 @@ def thresholding(image):
     _, thresh1 = cv2.threshold(blurred, 127, 255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
     return thresh1
 
-# Descriptor for db images
-dic={}
+# Descriptors for db images
+db=[]
 for image in images:
         img2 = cv2.imread(image,1)          
         thresh_img2=thresholding(img2)
         kp2, des2 = surf.detectAndCompute(thresh_img2,None)
-        dic[image]=des2
-dkeys=dic.keys()
+        db.append((des2,image))
 
+print("Descriptors have been calculated for database images")
+print("Opening WebCam")
 
 #timg='15.png'
 #img1 = cv2.imread(timg,1)
+
+count=100
 cap = cv2.VideoCapture(0)
 while(cap.isOpened()):
         # read image
@@ -51,8 +54,8 @@ while(cap.isOpened()):
                 # initialization
                 matched_kp=0
                 matched_img=""
-                for image in dkeys:
-                    matches = bf.knnMatch(des1,dic[image], k=2)
+                for a,b in db:
+                    matches = bf.knnMatch(des1,a, k=2)
                     # Apply ratio test
                     good = []
                     for m,n in matches:
@@ -60,13 +63,17 @@ while(cap.isOpened()):
                             good.append([m])
                     if matched_kp < len(good):
                         matched_kp=len(good)
-                        img3=img2
-                        matched_img=image
-                    #print("matched keypoints for {0} are {1}".format(image,len(good)))
-        print("Sign has been matched with {0}".format(matched_img))
+                        #img3=img2
+                        matched_img=b
+                    #print("matched keypoints for {0} are {1}".format(b,len(good)))
+        front,end=matched_img.split()                
+        if count == 0:
+            print(front)
+            count=100
         if cv2.waitKey(1) & 0xff == ord('q'):
                 break
-
+        count=count-1
+        
 cap.release()
 cv2.destroyAllWindows()
 # cv2.drawMatchesKnn expects list of lists as matches.
